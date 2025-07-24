@@ -145,8 +145,6 @@ gamma = 4258;
 oversamp = 8;		% Keep this even.
 To = T/oversamp;	% To is the period with oversampling.
 
-
-
 q0 = 0;	
 q1 = 0;
 theta = zeros(1,10000);
@@ -165,8 +163,8 @@ time = zeros(1,1000000);
 while r0 < rmax
     % JA: Adjusts the slewrate as an impirical function of the radius to minimize stimulation
 %     slew = smax * exp(-0.2 * r0);     % JA: Good results for Trio   at 170 T/m/s
-    slew = smax * exp(-0.25 * r0);     % JA: Good results for Prisma at 200 T/m/s
-%     slew = smax;
+% MZ:    slew = smax * exp(-0.25 * r0);     % JA: Good results for Prisma at 200 T/m/s 
+     slew = smax; % MZ: this was commented out
     [q2,r2] = findq2r2(slew,gmax,r0,r1,To,T,N,Fcoeff,rmax);
 
 	% Integrate for r, r', theta and theta' 	
@@ -378,8 +376,7 @@ else
 	sr = abs(slew)/smax;
 
 	if (abs(slew)/smax > 1.01)
-		tt = sprintf('Slew violation, slew = %d, smax = %d, sr=%f, r=%f, r1=%f',round(abs(slew)),round(smax),sr,r,r1);
-		disp(tt);
+		warning('Slew violation, slew = %d, smax = %d, sr=%f, r=%f, r1=%f',round(abs(slew)),round(smax),sr,r,r1);
 	end;
 
 end;
