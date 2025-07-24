@@ -1,4 +1,4 @@
-function SYS=GradSystemStructure(status,GRT, slewrate)
+function SYS=GradSystemStructure(status,GRT, slewrate, gmax)
 
 %% usage: SYS=GradSystemStructure(status,GRT, slewrate)
 % input: status:    'unknown': leaves SR and G_max empty
@@ -75,10 +75,16 @@ elseif strcmp(status,'patloc')
     
 elseif strcmp(status, 'custom')
     SYS.type = 'medium';
-    SYS.GMAX = 38; %[mT/m]
-    SYS.GMAX_SI =38/1000; %[T/m]
+    SYS.GMAX = gmax; %[mT/m]
+    SYS.GMAX_SI =gmax/1000; %[T/m]
     SYS.SLEW = slewrate; %T/m/s
     SYS.SLEW_per_GRT = SYS.SLEW*SYS.GRT/1000; %[mT/m]
     SYS.SLEW_per_GRT_SI = SYS.SLEW*SYS.GRT_SI; %[T/m];
 
 end
+
+% gradient oversampling hack
+%SYS.GRT=SYS.GRT/2;
+%SYS.GRT_SI=SYS.GRT_SI/2;
+%SYS.SLEW_per_GRT=SYS.SLEW_per_GRT/2;
+%SYS.SLEW_per_GRT_SI=SYS.SLEW_per_GRT_SI/2;
